@@ -11,7 +11,7 @@ function getAllSources(){
 
             let soursesMarkup = sources.reduce((markup, current) => {
                 return markup.concat(`<div id="${current.id}" class="news-container"><img class="preview" src="https://besticon-demo.herokuapp.com/icon?url=${current.url}&amp;size=70..120..200">
-                    <div class="title"><a href="${window.location.hostname}\\articles.html" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
+                    <div class="title"><a href="#" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
             }, '');
     
             document.getElementById("source-container").innerHTML = soursesMarkup;
