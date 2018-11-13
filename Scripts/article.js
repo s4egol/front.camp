@@ -1,28 +1,9 @@
-const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
+const urlParams = new URLSearchParams(window.location.search);
+const articleId = urlParams.get('articleId');
+const apiKey = urlParams.get('apiKey');
 
-function getAllSources(){
-    fetch("https://newsapi.org/v1/sources", { method: "GET" })
-        .then((response) => response.json())
-        .then((data) => {
-            let sources = [];
-            data.sources.forEach(source => {
-                sources.push({id: source.id, name: source.name, url: source.url});
-            });
-
-            let soursesMarkup = sources.reduce((markup, current) => {
-                return markup.concat(`<div id="${current.id}" class="news-container"><img class="preview" src="https://besticon-demo.herokuapp.com/icon?url=${current.url}&amp;size=70..120..200">
-                    <div class="title"><a href="#" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
-            }, '');
-    
-            document.getElementById("source-container").innerHTML = soursesMarkup;
-        })
-        .catch(error => {
-            console.log(error);
-        });
-}
-
-function getContentSource(source){
-    let urlRequest = `https://newsapi.org/v1/articles?source=${source}&apiKey=${apiKey}`;
+function getContentSource(){
+    let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
     fetch(urlRequest, { method: "GET" })
         .then((response) => response.json())
         .then((data) => {
@@ -51,4 +32,4 @@ function getContentSourceHTML(articles){
     }
 }
 
-window.onload = getAllSources;
+window.onload = getContentSource;
