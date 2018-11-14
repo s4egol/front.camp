@@ -40,6 +40,10 @@
     text-decoration: none;
 }
 
+.cursor{
+    cursor: pointer;
+}
+
 @media (max-width: 1000px) {
     .flex-container{
         display: flex;

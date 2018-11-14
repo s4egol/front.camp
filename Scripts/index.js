@@ -1,6 +1,16 @@
 const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
 
-function getAllSources(){
+function getContentSource(articleId){
+    if (!articleId) {
+        getSources();
+    } 
+    else 
+    {
+        getArticle(articleId);
+    }
+}
+
+function getSources(){
     fetch("https://newsapi.org/v1/sources", { method: "GET" })
         .then((response) => response.json())
         .then((data) => {
@@ -11,9 +21,9 @@ function getAllSources(){
 
             let soursesMarkup = sources.reduce((markup, current) => {
                 return markup.concat(`<div id="${current.id}" class="news-container"><img class="preview" src="https://besticon-demo.herokuapp.com/icon?url=${current.url}&amp;size=70..120..200">
-                    <div class="title"><a href="#" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
+                    <div class="title"><a class="cursor" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
             }, '');
-    
+
             document.getElementById("source-container").innerHTML = soursesMarkup;
         })
         .catch(error => {
@@ -21,21 +31,23 @@ function getAllSources(){
         });
 }
 
-function getContentSource(articleId){
-    let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
-    fetch(urlRequest, { method: "GET" })
-        .then((response) => response.json())
-        .then((data) => {
-            let articles = data.articles.map(article => {
-                return {image: article.urlToImage, title: article.title, description: article.description, url: article.url};
+function getArticle(articleId){
+        history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
+
+        let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
+        fetch(urlRequest, { method: "GET" })
+            .then((response) => response.json())
+            .then((data) => {
+                let articles = data.articles.map(article => {
+                    return {image: article.urlToImage, title: article.title, description: article.description, url: article.url};
+                });
+        
+                let articlesHTML = getContentSourceHTML(articles);
+                document.getElementById("source-container").innerHTML = articlesHTML;
+            })
+            .catch(error => {
+                console.log(error);
             });
-    
-            let articlesHTML = getContentSourceHTML(articles);
-            document.getElementById("source-container").innerHTML = articlesHTML;
-        })
-        .catch(error => {
-            console.log(error);
-        });
 }
 
 function getContentSourceHTML(articles){                          
@@ -51,4 +63,10 @@ function getContentSourceHTML(articles){
     }
 }
 
-window.onload = getAllSources;
+window.addEventListener('popstate', e => {
+    getContentSource(e.state.articleId)
+});
+
+window.onload = getContentSource(null);
+
+history.replaceState({articleId: null}, 'Default state', '');
