@@ -1,3 +1,5 @@
+import {fetchPolyfill} from 'whatwg-fetch';
+
 const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
 
 function getContentSource(articleId){
@@ -11,7 +13,7 @@ function getContentSource(articleId){
 }
 
 function getSources(){
-    fetch("https://newsapi.org/v1/sources", { method: "GET" })
+    fetchPolyfill("https://newsapi.org/v1/sources", { method: "GET" })
         .then((response) => response.json())
         .then((data) => {
             let sources = [];
@@ -21,10 +23,13 @@ function getSources(){
 
             let soursesMarkup = sources.reduce((markup, current) => {
                 return markup.concat(`<div id="${current.id}" class="news-container"><img class="preview" src="https://besticon-demo.herokuapp.com/icon?url=${current.url}&amp;size=70..120..200">
-                    <div class="title"><a class="cursor" onclick='getContentSource("${current.id}");'><strong>"${current.name}"</strong></a></div></div>`);
+                    <div class="title"><a class="cursor" id="сontentSource"><strong>"${current.name}"</strong></a></div></div>`);
             }, '');
 
             document.getElementById("source-container").innerHTML = soursesMarkup;
+            sources.forEach(source => {
+                document.getElementById(source.id).addEventListener('click', () => getContentSource(source.id));
+            });
         })
         .catch(error => {
             console.log(error);
@@ -35,7 +40,7 @@ function getArticle(articleId){
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
         let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
-        fetch(urlRequest, { method: "GET" })
+        fetchPolyfill(urlRequest, { method: "GET" })
             .then((response) => response.json())
             .then((data) => {
                 let articles = data.articles.map(article => {
@@ -61,6 +66,12 @@ function getContentSourceHTML(articles){
     else {
         return "<div>Articles didn't found</div>";
     }
+}
+
+function сontentSource_onclick(contentId) {
+    document.getElementById("сontentSource").addEventListener("click", function() {
+        getContentSource(contentId);
+    }, false) 
 }
 
 window.addEventListener('popstate', e => {
