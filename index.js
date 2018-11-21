@@ -1,8 +1,7 @@
-import {fetchPolyfill} from 'whatwg-fetch';
-
 const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
 
 function getContentSource(articleId){
+    autoScriptLoading();
     if (!articleId) {
         getSources();
     } 
@@ -13,7 +12,7 @@ function getContentSource(articleId){
 }
 
 function getSources(){
-    fetchPolyfill("https://newsapi.org/v1/sources", { method: "GET" })
+    fetch("https://newsapi.org/v1/sources", { method: "GET" })
         .then((response) => response.json())
         .then((data) => {
             let sources = [];
@@ -40,7 +39,7 @@ function getArticle(articleId){
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
         let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
-        fetchPolyfill(urlRequest, { method: "GET" })
+        fetch(urlRequest, { method: "GET" })
             .then((response) => response.json())
             .then((data) => {
                 let articles = data.articles.map(article => {
@@ -81,3 +80,15 @@ window.addEventListener('popstate', e => {
 window.onload = getContentSource(null);
 
 history.replaceState({articleId: null}, 'Default state', '');
+
+function autoScriptLoading() {
+    if(!window.fetch) {
+        sc_add('https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js','sha256-E1M+0f/hvoNVoV8K5RSn1gwe4EFwlvORnOrFzghX0wM=')
+    }
+}
+
+function sc_add(link, integrity) {
+    document.write('<script src=\"'+link+'\" integrity=\"'+integrity+'\" crossorigin=\"anonymous\"><\/script>');
+}
+
+
