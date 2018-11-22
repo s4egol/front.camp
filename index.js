@@ -12,7 +12,7 @@ function getContentSource(articleId){
 }
 
 function getSources(){
-    fetch("https://newsapi.org/v1/sources", { method: "GET" })
+    fetch("https://newsapi.org/v1/sources")
         .then((response) => response.json())
         .then((data) => {
             let sources = [];
@@ -39,7 +39,7 @@ function getArticle(articleId){
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
         let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
-        fetch(urlRequest, { method: "GET" })
+        fetch(urlRequest)
             .then((response) => response.json())
             .then((data) => {
                 let articles = data.articles.map(article => {
@@ -85,6 +85,7 @@ function autoScriptLoading() {
     if(!window.fetch) {
         sc_add('https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js','sha256-E1M+0f/hvoNVoV8K5RSn1gwe4EFwlvORnOrFzghX0wM=')
     }
+    sc_add('https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0/polyfill.min.js', '');
 }
 
 function sc_add(link, integrity) {
