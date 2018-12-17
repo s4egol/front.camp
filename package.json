@@ -2,19 +2,28 @@
   "name": "module2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "scripts/index.js",
   "dependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.6",
-    "babel-plugin-transform-imports": "^1.5.1",
+    "babel-plugin-transform-imports": "^1.5.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
+    "@babel/polyfill": "^7.0.0",
+    "@webcomponents/custom-elements": "^1.2.1",
+    "@webcomponents/webcomponentsjs": "^2.2.1",
+    "babel-loader": "^8.0.4",
+    "es6-promise": "^4.2.5",
+    "url-polyfill": "^1.1.3",
+    "url-search-params-polyfill": "^5.0.0",
+    "web-components-loader": "^0.1.2",
     "whatwg-fetch": "^3.0.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel index.js -d build"
+    "build": "babel scripts -d build"
   },
   "repository": {
     "type": "git",
