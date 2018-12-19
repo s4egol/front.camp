@@ -1,6 +1,29 @@
-import {DataLoader} from './dataLoader.js';
-
 const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
+
+class DataLoader {
+
+    constructor(url){
+        this.url = url;
+    }
+
+    async fetchAsync(){
+        var response = await fetch(this.url);
+        this.checkStatus(response);
+        return await response.json();
+    }
+
+    checkStatus(response){
+        if (response.ok) {
+            return response;
+        } 
+        else 
+        {
+            var error = new Error(response.statusText)
+            error.response = response;
+            throw error;
+        }
+    }
+}
 
 async function getContentSource(articleId){
     if (!articleId) {

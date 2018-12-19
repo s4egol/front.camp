@@ -2,10 +2,10 @@
 <html>
     <head>
         <title>Sources list</title>  
-        <script src="node_modules/@babel/polyfill/dist/polyfill.js"></script>
-        <script type="module" src="./scripts/index.js"></script>
-        <script type="module" src="./scripts/dataLoader.js"></script>
-        <script defer nomodule src="./build/dataLoader.js"></script>
+        <script defer src="./build/polyfills/polyfill.min.js"></script>
+        <script defer src="./build/polyfills/fetch.umd.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+        <script defer type="module" src="./scripts/index.js"></script>
         <script defer nomodule src="./build/index.js"></script>
         <link rel="stylesheet" type="text/css" href="./css/core.css">
         <link rel="stylesheet" type="text/css" href="./css/article.css">
