@@ -2,38 +2,13 @@ import '../styles/core.css';
 import '../styles/article.css';
 import 'babel-polyfill';
 import 'whatwg-fetch';
-
-const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
-
-class DataLoader {
-
-    constructor(url){
-        this.url = url;
-    }
-
-    async fetchAsync(){
-        var response = await fetch(this.url);
-        this.checkStatus(response);
-        return await response.json();
-    }
-
-    checkStatus(response){
-        if (response.ok) {
-            return response;
-        } 
-        else 
-        {
-            var error = new Error(response.statusText)
-            error.response = response;
-            throw error;
-        }
-    }
-}
+import {API_KEY, API_URL} from './constants'; 
+import {DataLoader} from './dataLoader';
 
 class ContentManagment{
 
     async getSources() {
-        var data = await new DataLoader("https://newsapi.org/v1/sources").fetchAsync();
+        var data = await new DataLoader(`${API_URL}/sources`).fetchAsync();
     
         let sources = [];
         data.sources.forEach(source => {
@@ -55,7 +30,7 @@ class ContentManagment{
 
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
-        let urlRequest = `https://newsapi.org/v1/articles?source=${articleId}&apiKey=${apiKey}`;
+        let urlRequest = `${API_URL}/articles?source=${articleId}&apiKey=${API_KEY}`;
         let data = await new DataLoader(urlRequest).fetchAsync();
 
         let articles = data.articles.map(article => {

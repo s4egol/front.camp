@@ -9,7 +9,7 @@ const isProduction = !isDevelopment;
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
-  entry: "./scripts/index.js",
+  entry: "./scripts/startPage/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "index.js",
@@ -30,6 +30,14 @@ module.exports = {
               MiniCssExtractPlugin.loader,
               'css-loader',
               'postcss-loader'
+            ]
+        },
+        {
+            test: /\.json$/,
+            use: [
+              {
+                loader: path.resolve('./scripts/loader/json-loader.js')
+              }
             ]
         }
     ]
