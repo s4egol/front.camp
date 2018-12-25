@@ -1,3 +1,8 @@
+import '../styles/core.css';
+import '../styles/article.css';
+import 'babel-polyfill';
+import 'whatwg-fetch';
+
 const apiKey = "ff4e5fedad734d3ca5503f69725ea2ca";
 
 class DataLoader {

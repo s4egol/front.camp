@@ -2,8 +2,10 @@ const path = require('path');
 const argv = require('yargs').argv;
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const isDevelopment = argv.mode === 'development';
+const isProduction = !isDevelopment;
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
@@ -23,23 +25,26 @@ module.exports = {
         },
         {
             test: /\.css$/,
-            exclude: /(node_modules)/,
             use: [
-              isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+              'style-loader',
+              MiniCssExtractPlugin.loader,
               'css-loader',
-              {
-                loader: 'postcss-loader',
-                options: {
-                  plugins: [
-                    !isDevelopment ? require('cssnano') : () => {},
-                    require('autoprefixer')({
-                      browsers: ['IE 11']
-                    })
-                  ]
-                }
-              },
-              'sass-loader'
+              'postcss-loader'
             ]
         }
-    ]},
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css'
+    })
+  ],
+  devtool: isDevelopment ? 'source-map' : 'none',
+  devServer: {
+    contentBase: './build',
+    stats: 'errors-only'
+  }
   }
