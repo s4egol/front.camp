@@ -48,7 +48,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + chunkId + ".index.js"
+/******/ 		return __webpack_require__.p + "" + ({}[chunkId]||chunkId) + ".index.js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -239,10 +239,42 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/startPage/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/appInitialize/app.js");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./scripts/appInitialize/app.js":
+/*!**************************************!*\
+  !*** ./scripts/appInitialize/app.js ***!
+  \**************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _startPage_index_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../startPage/index.html */ "./scripts/startPage/index.html");
+/* harmony import */ var _startPage_index_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_startPage_index_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _startPage_fileForLoaderWithText_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../startPage/fileForLoaderWithText.json */ "./scripts/startPage/fileForLoaderWithText.json");
+var _startPage_fileForLoaderWithText_json__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../startPage/fileForLoaderWithText.json */ "./scripts/startPage/fileForLoaderWithText.json", 1);
+
+
+
+function showNewsPage() {
+  Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ../index.js */ "./scripts/index.js"));
+}
+
+function initApp() {
+  var sourceContainer = document.getElementById('source-container');
+  sourceContainer.innerHTML = _startPage_index_html__WEBPACK_IMPORTED_MODULE_0___default.a;
+  var redirectToNewButton = document.getElementById('show-all-news');
+  redirectToNewButton.textContent = _startPage_fileForLoaderWithText_json__WEBPACK_IMPORTED_MODULE_1__.value;
+  redirectToNewButton.addEventListener('click', showNewsPage);
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+
+/***/ }),
 
 /***/ "./scripts/startPage/fileForLoaderWithText.json":
 /*!******************************************************!*\
@@ -262,39 +294,7 @@ module.exports = {"value":"Show full news page"};
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module parse failed: Unexpected token (1:0)\nYou may need an appropriate loader to handle this file type.\n> <h1> View full page with news</h1>\r\n| <button id=\"show-all-news\"></button>");
-
-/***/ }),
-
-/***/ "./scripts/startPage/index.js":
-/*!************************************!*\
-  !*** ./scripts/startPage/index.js ***!
-  \************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.html */ "./scripts/startPage/index.html");
-/* harmony import */ var _index_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_html__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _fileForLoaderWithText__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fileForLoaderWithText */ "./scripts/startPage/fileForLoaderWithText.json");
-var _fileForLoaderWithText__WEBPACK_IMPORTED_MODULE_1___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./fileForLoaderWithText */ "./scripts/startPage/fileForLoaderWithText.json", 1);
-
-
-
-function showNewsPage() {
-  Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ../index.js */ "./scripts/index.js"));
-}
-
-function defaultAppSettings() {
-  var sourceContainer = document.getElementById('source-container');
-  sourceContainer.innerHTML = _index_html__WEBPACK_IMPORTED_MODULE_0___default.a;
-  var redirectToNewButton = document.getElementById('show-all-news');
-  redirectToNewButton.textContent = _fileForLoaderWithText__WEBPACK_IMPORTED_MODULE_1__.value;
-  redirectToNewButton.addEventListener('click', showNewsPage);
-}
-
-document.addEventListener('DOMContentLoaded', defaultAppSettings);
+module.exports = "<div class=\"button-position\">\r\n    <button id=\"show-all-news\"></button>\r\n<div>\r\n\r\n<style type=\"text/css\">\r\n\r\nbutton {\r\n    padding: 10px 20px;\r\n    margin-top: 20px;\r\n    border: 1px solid #d3d3d3;\r\n    border-radius: 5px;\r\n    background-color:  #ffffff ;\r\n    box-shadow: 0 3px 5px #d3d3d3;\r\n    cursor: pointer;\r\n    transition: 0.3s;\r\n    user-select: none;\r\n    text-transform: uppercase;\r\n}\r\n\r\nbutton:hover {\r\n    background-color: #e7e7e7;\r\n    border: 1px solid #b9b9b9;\r\n}\r\n\r\n.button-position {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    justify-content: center;\r\n}\r\n\r\n.button-hide {\r\n    display: none;\r\n}\r\n\r\n</style>";
 
 /***/ })
 

@@ -9,10 +9,11 @@ const isProduction = !isDevelopment;
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
-  entry: "./scripts/startPage/index.js",
+  entry: "./scripts/appInitialize/app.js",
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "index.js",
+    chunkFilename: '[name].index.js'
   },
   module: {
     rules: [
@@ -31,6 +32,13 @@ module.exports = {
               'css-loader',
               'postcss-loader'
             ]
+        },
+        {
+            test: /\.html$/,
+            loader: 'html-loader',
+            options: {
+              attrs: ['link:href'],
+            }
         },
         {
             test: /\.json$/,
