@@ -1,7 +1,5 @@
 import '../styles/core.css';
 import '../styles/article.css';
-import 'babel-polyfill';
-import 'whatwg-fetch';
 import {API_KEY, API_URL} from './constants'; 
 import {DataLoader} from './dataLoader';
 

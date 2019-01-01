@@ -3,17 +3,24 @@ const argv = require('yargs').argv;
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');
 
 const isDevelopment = argv.mode === 'development';
 const isProduction = !isDevelopment;
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
-  entry: "./scripts/appInitialize/app.js",
+  entry: [
+    "whatwg-fetch",
+    "babel-polyfill",
+    "./scripts/appInitialize/app.js"
+  ],
   output: {
     path: path.resolve(__dirname, "build"),
-    filename: "index.js",
-    chunkFilename: '[name].index.js'
+    crossOriginLoading: 'anonymous',
+    filename: isProduction ? '[name].[hash].js' : '[name].js',
   },
   module: {
     rules: [
@@ -51,13 +58,31 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin('./build'),
     new HtmlWebpackPlugin({
       template: './index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css'
-    })
+      filename: isProduction ? '[name].[hash].css' : '[name].css'
+    }),
+    new SriPlugin({
+      hashFuncNames: ['sha256', 'sha384'],
+      enabled: isProduction,
+  })
   ],
+  optimization: {
+    minimizer: [
+      new UglifyjsWebpackPlugin({
+        uglifyOptions: {
+          warnings: false,
+          parse: {},
+          compress: {},
+          mangle: true, // Note `mangle.properties` is `false` by default.
+          toplevel: false,
+        }
+      })
+    ]
+  },
   devtool: isDevelopment ? 'source-map' : 'none',
   devServer: {
     contentBase: './build',
