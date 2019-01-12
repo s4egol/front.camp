@@ -2,11 +2,13 @@ import '../styles/core.css';
 import '../styles/article.css';
 import {API_KEY, API_URL} from './constants'; 
 import {DataLoader} from './dataLoader';
+import NewsService from './sevices/newsService';
 
 class ContentManagment{
 
     async getSources() {
-        var data = await new DataLoader(`${API_URL}/sources`).fetchAsync();
+        //var data = await new DataLoader(`${API_URL}/sources`).fetchAsync();
+        let data = await NewsService.setSource('sources').read();
     
         let sources = [];
         data.sources.forEach(source => {
@@ -29,7 +31,8 @@ class ContentManagment{
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
         let urlRequest = `${API_URL}/articles?source=${articleId}&apiKey=${API_KEY}`;
-        let data = await new DataLoader(urlRequest).fetchAsync();
+        //let data = await new DataLoader(urlRequest).fetchAsync();
+        let data = await NewsService.setSource('articles').read({source: articleId, apiKey: API_KEY.toString()});
 
         let articles = data.articles.map(article => {
             return {image: article.urlToImage, title: article.title, description: article.description, url: article.url};
