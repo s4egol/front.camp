@@ -1,4 +1,5 @@
 import {API_KEY} from '../constants.js';
+import errorHandler from '../errorHandler/lazyErrorHandler.js'
 
 class Http {
 
@@ -40,9 +41,7 @@ class Http {
         } 
         else 
         {
-            var error = new Error(response.statusText)
-            error.response = response;
-            throw error;
+            return errorHandler(responce);
         }
     }
 
@@ -50,8 +49,14 @@ class Http {
         const request = new Request(url, options);
         request.headers.append('authorization', `bearer ${this.key}`);
 
-        const response = await fetch(request);
-        this.checkStatus(response);
+        let response;
+        try {
+            response = await fetch(request);
+            this.checkStatus(response);
+        }
+        catch(e){
+            return errorHandler(e);
+        }
 
         return await response.json();
     }
