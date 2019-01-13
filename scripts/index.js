@@ -2,13 +2,13 @@ import '../styles/core.css';
 import '../styles/article.css';
 import {API_KEY, API_URL} from './constants'; 
 import ProxyRequestFactory from './api/proxyFactory.js';
+import DataManager from './actions/dataManager.js';
 
 class ContentManagment{
 
-    async getSources() {
-        //var data = await new DataLoader(`${API_URL}/sources`).fetchAsync();
-        let data = await new ProxyRequestFactory({method: 'GET', url: `${API_URL}/sources`}).send();
-    
+    async getSources() {      
+        let data = await DataManager.getSources();
+
         let sources = [];
         data.sources.forEach(source => {
             sources.push({id: source.id, name: source.name, url: source.url});
@@ -29,7 +29,7 @@ class ContentManagment{
 
         history.pushState({articleId}, `Selected: ${articleId}`, `#selected=${articleId}`);    
 
-        let data = await new ProxyRequestFactory({method: 'GET', url: `${API_URL}/articles?source=${articleId}&apiKey=${API_KEY}`}).send();
+        let data = await DataManager.getArticles(articleId);
 
         let articles = data.articles.map(article => {
             return {image: article.urlToImage, title: article.title, description: article.description, url: article.url};
