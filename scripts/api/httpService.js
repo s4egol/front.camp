@@ -1,7 +1,6 @@
-import {API_KEY} from '../constants.js';
 import errorHandler from '../errorHandler/lazyErrorHandler.js'
 
-class Http {
+class HttpService {
 
     constructor(apiKey) {
         this.key = apiKey;
@@ -62,4 +61,4 @@ class Http {
     }
 }
 
-export default new Http(API_KEY);
+export default HttpService;

@@ -1,16 +1,14 @@
 import NewsDispatcher from './Dispatcher.js';
 import ActionTypes from './ActionTypes.js';
-import store from './Store.js';
-import ProxyRequestFactory from '../api/proxyFactory.js';
-import {API_URL, API_KEY} from '../constants.js';
+import Store from './Store.js';
+import NewsService from '../api/newsService.js';
 
 class DataManager {
     
     constructor() { }
 
     async getSources() {
-        return await new ProxyRequestFactory({method: 'GET', url: `${API_URL}/sources`})
-            .send()
+        return await new NewsService().getAllNews()
             .then(data => {
                 NewsDispatcher.dispatch({
                     type: ActionTypes.GET_SOURCES,
@@ -21,13 +19,12 @@ class DataManager {
             });
     }
 
-    async getArticles(articleId) {
-        return await new ProxyRequestFactory({method: 'GET', url: `${API_URL}/articles?source=${articleId}&apiKey=${API_KEY}`})
-            .send()
+    async getArticles(sourceId) {
+        return await new NewsService().getAllArticles(sourceId)
             .then(data => {
                 NewsDispatcher.dispatch({
                     type: ActionTypes.GET_ARTICLES,
-                    articleId: articleId
+                    articleId: sourceId
                 });
 
                 return data;
