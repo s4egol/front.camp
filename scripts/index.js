@@ -16,6 +16,8 @@ class ContentManagment{
         let soursesMarkup = new ProxyMarkupFactory({typeEntity: "SOURCE", data: sources}).createMarkup();
     
         document.getElementById("source-container").innerHTML = soursesMarkup;
+        document.getElementById("article-container").innerHTML = "";
+
         sources.forEach(source => {
             document.getElementById(source.id).addEventListener('click', () => this.getContentSource(source.id));
         });
@@ -32,7 +34,9 @@ class ContentManagment{
         });
 
         let articlesHTML = new ProxyMarkupFactory({typeEntity: "ARTICLE", data: articles}).createMarkup();
-        document.getElementById("source-container").innerHTML = articlesHTML;
+        
+        document.getElementById("article-container").innerHTML = articlesHTML;
+        document.getElementById("source-container").innerHTML = "";
     }
 
     сontentSource_onclick(contentId) {

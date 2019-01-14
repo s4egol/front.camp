@@ -30,6 +30,13 @@
     justify-content: flex-start;
 }
 
+.article-container-style{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
 .article-header{
     font-family: "Courier New", sans-serif;
     text-align: center;
@@ -77,6 +84,13 @@
         justify-content: center;
     }
 
+    .article-container-style{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: row;
+    }
+
     .article{
         display: flex;
         flex-direction: column;
@@ -88,8 +102,8 @@
     }
 
     .article-content{
-        flex-direction: column;
-        margin: 0px 0px 10px 10px;
+        display: flex;
+        justify-content: center;
         max-width: 250px;
     }
 }
